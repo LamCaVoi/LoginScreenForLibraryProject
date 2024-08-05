@@ -11,28 +11,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 public class AccountDAO implements DAO<Account> {
-
-    public void createAccountTable() {
-        String sql = "CREATE TABLE IF NOT EXISTS account (userName TEXT PRIMARY KEY,password TEXT);";
-        try (Connection conn = ConnectionDB.connect(); Statement st = conn.createStatement();) {
-            st.execute(sql);
-            System.out.println("Table 'account' created successfully.");
-
-        } catch (SQLException ex) {
-            System.out.println("Error creating table: " + ex.getMessage());
-        }
-    }
 
     @Override
     public void create(Account t) {
         String sql = "Insert into account (userName, password) values (?, ?)";
         try (Connection conn = ConnectionDB.connect(); PreparedStatement ps = conn.prepareStatement(sql);) {
-            createAccountTable();
             ps.setString(1, t.getUserName());
             ps.setString(2, t.getPassword());
             ps.executeUpdate();
@@ -91,8 +77,7 @@ public class AccountDAO implements DAO<Account> {
     }
     
     
-    
-    
+     
     
     
     
